@@ -2,7 +2,8 @@ import logo from "../assets/images/logo.svg";
 import linkedIn from "../assets/images/linkedin.svg";
 import twitter from "../assets/images/twitter.svg";
 import instagram from "../assets/images/instagram.svg";
-
+import Footer from "../components/Footer";
+import { Link } from "react-router";
 import "./result.css";
 
 const ResultPage = () => {
@@ -35,11 +36,11 @@ const ResultPage = () => {
 
       <section className="quote">
         <p className="quote-text"></p>
-        <a className="green-button result-btn" href="../index.html">
+        <Link className="green-button result-btn" to="/">
           <div className="layer">
             <p>Retry</p>
           </div>
-        </a>
+        </Link>
       </section>
 
       <section className="share">
@@ -51,7 +52,7 @@ const ResultPage = () => {
         </div>
       </section>
 
-      <footer className="footer">Made with ❤️ by Kuldeep Solanki</footer>
+      <Footer />
     </main>
   );
 };

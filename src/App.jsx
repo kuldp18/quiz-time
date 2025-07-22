@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import logo from "./assets/images/logo.svg";
 
 import "./app.css";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
 
       <section className="high-score"></section>
 
-      <footer className="footer">Made with ❤️ by Kuldeep Solanki</footer>
+      <Footer />
     </main>
   );
 };
