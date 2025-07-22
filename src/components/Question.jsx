@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "../contexts/useGlobalContext";
-import { ACTION_TYPES } from "../reducers/quizReducer";
+import { ACTIONS } from "../reducers/quizReducer";
 
 const Question = ({ timeRef, nextRef }) => {
   const { state, dispatch } = useGlobalContext();
@@ -22,12 +22,12 @@ const Question = ({ timeRef, nextRef }) => {
   useEffect(() => {
     // change theme as timer changes...
     if (time === 15) {
-      dispatch({ type: ACTION_TYPES.CHANGE_THEME, value: "slate" });
+      dispatch({ type: ACTIONS.CHANGE_THEME, value: "slate" });
     }
     if (time === 5) {
       console.log("red");
 
-      dispatch({ type: ACTION_TYPES.CHANGE_THEME, value: "red" });
+      dispatch({ type: ACTIONS.CHANGE_THEME, value: "red" });
     }
     if (time === 0) {
       clearInterval(timer.current);
@@ -52,7 +52,7 @@ const Question = ({ timeRef, nextRef }) => {
 
   const handleNext = () => {
     if (state.index === state.questions.length - 1) return;
-    dispatch({ type: ACTION_TYPES.INCREASE_INDEX });
+    dispatch({ type: ACTIONS.INCREASE_INDEX });
   };
 
   function formatTime(seconds) {
