@@ -96,32 +96,3 @@ body {
   pointer-events: none !important;
   user-select: none !important;
 }
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  min-height: 100vh;
-  align-items: center;
-  padding: 1rem;
-  background-color: var(--body-white);
-}
-
-.logo img {
-  max-width: 600px;
-  width: 100%;
-}
-
-.high-score {
-  font-weight: 600;
-  font-size: 1rem;
-  display: none;
-}
-
-@media screen and (max-width: 420px) {
-  .green-button {
-    width: 230px;
-    height: 60px;
-    font-size: 1.5rem;
-  }
-}
