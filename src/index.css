@@ -1,0 +1,127 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --body-white: #f6f4f0;
+  --body-green: #cce2c2;
+  --body-slate: #d4d69f8c;
+  --body-red: #dbadad;
+  --text-grey: #858585;
+  --text-dark-grey: #383838;
+
+  --bar-green: #35bd3a;
+  --bar-dark-green: #009006;
+  --bar-red: #ff7a7a;
+  --bar-dark-red: #eb4545;
+
+  --btn-dark-green: #01ab08;
+  --btn-light-green: #35bd3a;
+
+  --quiz-white: #f5f5f57a;
+  --quiz-grey-outline: #d2d2d2;
+  --quiz-red-outline: #ff7a7a;
+  --quiz-green-outline: #35bd3a;
+
+  --quiz-progress: #fec33d;
+
+  --quiz-next-green: #01ab08;
+  --quiz-next-slate: #c58800;
+  --quiz-next-red: #c50000;
+
+  --quiz-time-green: #02a4096e;
+  --quiz-time-slate: #c5b1006e;
+  --quiz-time-red: #c50c006e;
+
+  --border-radius: 10px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  transition: all 0.35s ease-in;
+}
+
+.green-button {
+  width: 300px;
+  height: 80px;
+  color: white;
+  background-color: var(--btn-dark-green);
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  user-select: none;
+  font-size: 2rem;
+}
+
+.green-button:active {
+  .layer {
+    width: 99%;
+    height: 92%;
+  }
+}
+
+.layer {
+  background-color: var(--btn-light-green);
+  width: 98%;
+  height: 89%;
+  border-radius: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.layer p {
+  width: 100%;
+  text-align: center;
+}
+
+.footer {
+  color: var(--text-grey);
+  font-weight: 500;
+  font-size: 12px;
+  position: fixed;
+  bottom: 5px;
+  align-self: center;
+}
+
+.disabled {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 100vh;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--body-white);
+}
+
+.logo img {
+  max-width: 600px;
+  width: 100%;
+}
+
+.high-score {
+  font-weight: 600;
+  font-size: 1rem;
+  display: none;
+}
+
+@media screen and (max-width: 420px) {
+  .green-button {
+    width: 230px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}
