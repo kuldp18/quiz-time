@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useGlobalContext } from "../contexts/useGlobalContext";
 import { useNavigate } from "react-router";
 import { ACTIONS } from "../reducers/quizReducer";
 import Option from "./Option";
 import rightTing from "../assets/audio/correct.mp3";
 import wrongTing from "../assets/audio/wrong.wav";
+import { throttle } from "lodash";
 
 const Question = ({ timeRef, nextRef, volumeOn }) => {
   const { state, dispatch } = useGlobalContext();
@@ -17,6 +18,14 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
   const [optionsDisabled, setOptionsDisabled] = useState(false); // disable options or not
   const [selectedOption, setSelectedOption] = useState(null); // track selected option index
   const [revealAnswer, setRevealAnswer] = useState(false); // reveal answer after timer expires
+
+  const saveQuiz = useMemo(
+    () =>
+      throttle(() => {
+        dispatch({ type: ACTIONS.SAVE_QUIZ });
+      }, 3000),
+    [dispatch]
+  );
 
   useEffect(() => {
     // handle timer
@@ -43,7 +52,9 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
       setOptionsDisabled(true);
       setRevealAnswer(true);
     }
-  }, [time, dispatch]);
+    //save quiz every 3 seconds
+    saveQuiz();
+  }, [time, dispatch, saveQuiz]);
 
   useEffect(() => {
     // on index change

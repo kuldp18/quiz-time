@@ -15,6 +15,7 @@ export const ACTIONS = {
   CALCULATE_ANSWER: "CALCULATE_ANSWER",
   RESET_STATE: "RESET_STATE",
   CHECK_HIGHSCORE: "CHECK_HIGHSCORE",
+  SAVE_QUIZ: "SAVE_QUIZ",
 };
 
 export const quizReducer = (state, action) => {
@@ -41,6 +42,11 @@ export const quizReducer = (state, action) => {
       const highscore =
         state.score > state.highscore ? state.score : state.highscore;
       return { ...state, highscore };
+    }
+
+    case ACTIONS.SAVE_QUIZ: {
+      localStorage.setItem("quiz", JSON.stringify(state));
+      return { ...state };
     }
 
     case ACTIONS.RESET_STATE: {
