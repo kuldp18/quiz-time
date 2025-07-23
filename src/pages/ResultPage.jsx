@@ -12,6 +12,7 @@ const ResultPage = () => {
   const { state } = useGlobalContext();
   const [greenPercentage, setGreenPercentage] = useState(0);
   const [redPercentage, setRedPercentage] = useState(0);
+  const [quote, setQuote] = useState("");
 
   useEffect(() => {
     const rightQuestions = state.score;
@@ -22,6 +23,29 @@ const ResultPage = () => {
 
     setGreenPercentage(green.toFixed(1));
     setRedPercentage(red.toFixed(1));
+
+    switch (true) {
+      case green >= 90:
+        setQuote("🎉 Outstanding! You're a quiz master!");
+        break;
+      case green >= 80:
+        setQuote("🔥 Great job! You really know your stuff.");
+        break;
+      case green >= 70:
+        setQuote("👍 Good effort! Just a little more practice.");
+        break;
+      case green >= 60:
+        setQuote("🙂 Not bad, but there's room to grow.");
+        break;
+      case green >= 50:
+        setQuote("😅 Close call! Review a few things and try again.");
+        break;
+      case green >= 30:
+        setQuote("🤔 Hmm… looks like you need a refresher.");
+        break;
+      default:
+        setQuote("💀 That was rough… but hey, at least you tried!");
+    }
   }, [state.score, state.questions]);
 
   return (
@@ -62,7 +86,7 @@ const ResultPage = () => {
       </section>
 
       <section className="quote">
-        <p className="quote-text"></p>
+        <p className="quote-text">{quote}</p>
         <Link className="green-button result-btn" to="/">
           <div className="layer">
             <p>Retry</p>
