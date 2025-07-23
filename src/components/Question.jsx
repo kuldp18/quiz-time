@@ -25,8 +25,6 @@ const Question = ({ timeRef, nextRef }) => {
       dispatch({ type: ACTIONS.CHANGE_THEME, value: "slate" });
     }
     if (time === 5) {
-      console.log("red");
-
       dispatch({ type: ACTIONS.CHANGE_THEME, value: "red" });
     }
     if (time === 0) {
