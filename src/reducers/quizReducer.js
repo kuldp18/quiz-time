@@ -1,5 +1,5 @@
 import questionData from "../data/questions";
-import _ from "lodash";
+import { shuffle } from "lodash";
 
 export const initialState = {
   questions: prepareQuiz(questionData),
@@ -58,10 +58,10 @@ export const quizReducer = (state, action) => {
 };
 
 function prepareQuiz(questions) {
-  let shuffledQuestions = _.shuffle(questions);
+  let shuffledQuestions = shuffle(questions);
 
   return shuffledQuestions.map((question) => {
-    question.answers = _.shuffle(question.answers);
+    question.answers = shuffle(question.answers);
     return question;
   });
 }
