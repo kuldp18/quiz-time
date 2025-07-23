@@ -6,6 +6,7 @@ export const initialState = {
   index: 0,
   theme: "green", //green,red,slate
   highscore: null,
+  time: 0,
   score: 0,
 };
 
@@ -46,6 +47,7 @@ export const quizReducer = (state, action) => {
     }
 
     case ACTIONS.SAVE_QUIZ: {
+      state.time = action.value; // save time
       localStorage.setItem("quiz", JSON.stringify(state));
       localStorage.setItem("quiz_highscore", JSON.stringify(state.highscore));
       return { ...state };

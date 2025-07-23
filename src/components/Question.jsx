@@ -6,15 +6,16 @@ import Option from "./Option";
 import rightTing from "../assets/audio/correct.mp3";
 import wrongTing from "../assets/audio/wrong.wav";
 import { throttle } from "lodash";
+import { useSavedQuiz } from "../hooks/useSavedQuiz";
 
 const Question = ({ timeRef, nextRef, volumeOn }) => {
   const { state, dispatch } = useGlobalContext();
   const navigate = useNavigate();
-
   const [currentQuestion, setCurrentQuestion] = useState(null);
-
+  const savedQuiz = useSavedQuiz();
   const timer = useRef(null); // setInterval
-  const [time, setTime] = useState(30); // duration for each question
+  const timeLeftRef = useRef(null); // for saving the time
+  const [time, setTime] = useState(savedQuiz?.time || 30); // time left for the question
   const [optionsDisabled, setOptionsDisabled] = useState(false); // disable options or not
   const [selectedOption, setSelectedOption] = useState(null); // track selected option index
   const [revealAnswer, setRevealAnswer] = useState(false); // reveal answer after timer expires
@@ -22,7 +23,7 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
   const saveQuiz = useMemo(
     () =>
       throttle(() => {
-        dispatch({ type: ACTIONS.SAVE_QUIZ });
+        dispatch({ type: ACTIONS.SAVE_QUIZ, value: timeLeftRef.current });
       }, 1500),
     [dispatch]
   );
@@ -52,6 +53,9 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
       setOptionsDisabled(true);
       setRevealAnswer(true);
     }
+
+    timeLeftRef.current = time; // store ref to time
+
     //save quiz
     saveQuiz();
 
@@ -67,7 +71,11 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
     //create new timer
     clearInterval(timer.current);
 
-    setTime(30);
+    if (savedQuiz?.index === state.index && savedQuiz?.time >= 0) {
+      setTime(savedQuiz?.time);
+    } else {
+      setTime(30);
+    }
 
     timer.current = setInterval(() => {
       setTime((t) => t - 1);
@@ -80,7 +88,7 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
     setRevealAnswer(false);
 
     return () => clearInterval(timer.current);
-  }, [state.index, state.questions]);
+  }, [state.index, state.questions, savedQuiz?.index, savedQuiz?.time]);
 
   const handleNext = () => {
     if (!optionsDisabled) return;
