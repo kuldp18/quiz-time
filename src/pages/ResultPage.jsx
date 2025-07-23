@@ -50,7 +50,7 @@ const ResultPage = () => {
       default:
         setQuote("💀 That was rough… but hey, at least you tried!");
     }
-  }, [state.score, state.questions]);
+  }, [state.score, state.questions, dispatch]);
 
   return (
     <main className="result-container">
