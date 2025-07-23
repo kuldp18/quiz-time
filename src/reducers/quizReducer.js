@@ -47,6 +47,7 @@ export const quizReducer = (state, action) => {
 
     case ACTIONS.SAVE_QUIZ: {
       localStorage.setItem("quiz", JSON.stringify(state));
+      localStorage.setItem("quiz_highscore", JSON.stringify(state.highscore));
       return { ...state };
     }
 

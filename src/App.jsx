@@ -20,7 +20,8 @@ const App = () => {
       return;
     }
 
-    setHighscore(savedQuiz.highscore);
+    const highscore = localStorage.getItem("quiz_highscore") || 0;
+    setHighscore(highscore);
 
     if (savedQuiz.index < savedQuiz.questions.length) {
       dispatch({ type: ACTIONS.LOAD_SAVED_QUIZ, value: savedQuiz });
