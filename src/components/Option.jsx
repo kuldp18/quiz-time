@@ -40,9 +40,12 @@ const Option = ({
         }}
       >
         <p>{option.answer}</p>
-        <span>
-          <img src={wrongSvg} alt="Wrong" />
-        </span>
+        <p>
+          You chose
+          <span>
+            <img src={wrongSvg} alt="Wrong" />
+          </span>
+        </p>
       </div>
     );
   }
