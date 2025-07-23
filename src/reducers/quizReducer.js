@@ -11,6 +11,7 @@ export const initialState = {
 export const ACTIONS = {
   CHANGE_THEME: "CHANGE_THEME",
   INCREASE_INDEX: "INCREASE_INDEX",
+  CALCULATE_ANSWER: "CALCULATE_ANSWER",
 };
 
 export const quizReducer = (state, action) => {
@@ -21,6 +22,16 @@ export const quizReducer = (state, action) => {
     }
     case ACTIONS.INCREASE_INDEX: {
       return { ...state, index: state.index + 1 };
+    }
+    case ACTIONS.CALCULATE_ANSWER: {
+      const option = action.value;
+      if (option.correct) {
+        //Correct answer
+        return { ...state, score: state.score + 1 };
+      } else {
+        // Wrong answer
+        return { ...state };
+      }
     }
     default:
       throw new Error("Invalid action type in dispatch");

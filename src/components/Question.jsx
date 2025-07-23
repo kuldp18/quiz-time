@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "../contexts/useGlobalContext";
 import { ACTIONS } from "../reducers/quizReducer";
+import Option from "./Option";
 
 const Question = ({ timeRef, nextRef }) => {
   const { state, dispatch } = useGlobalContext();
@@ -9,6 +10,9 @@ const Question = ({ timeRef, nextRef }) => {
 
   const timer = useRef(null); // setInterval
   const [time, setTime] = useState(30); // duration for each question
+  const [optionsDisabled, setOptionsDisabled] = useState(false); // disable options or not
+  const [selectedOption, setSelectedOption] = useState(null); // track selected option index
+  const [revealAnswer, setRevealAnswer] = useState(false); // reveal answer after timer expires
 
   useEffect(() => {
     // handle timer
@@ -21,6 +25,9 @@ const Question = ({ timeRef, nextRef }) => {
 
   useEffect(() => {
     // change theme as timer changes...
+    if (time === 30) {
+      dispatch({ type: ACTIONS.CHANGE_THEME, value: "green" });
+    }
     if (time === 15) {
       dispatch({ type: ACTIONS.CHANGE_THEME, value: "slate" });
     }
@@ -29,6 +36,8 @@ const Question = ({ timeRef, nextRef }) => {
     }
     if (time === 0) {
       clearInterval(timer.current);
+      setOptionsDisabled(true);
+      setRevealAnswer(true);
     }
   }, [time, dispatch]);
 
@@ -45,19 +54,37 @@ const Question = ({ timeRef, nextRef }) => {
       setTime((t) => t - 1);
     }, 1000);
 
+    // reset other state
+
+    setOptionsDisabled(false);
+    setSelectedOption(null);
+    setRevealAnswer(false);
+
     return () => clearInterval(timer.current);
   }, [state.index, state.questions]);
 
   const handleNext = () => {
-    if (state.index === state.questions.length - 1) return;
+    if (state.index === state.questions.length - 1 || !optionsDisabled) return;
     dispatch({ type: ACTIONS.INCREASE_INDEX });
   };
 
-  function formatTime(seconds) {
+  const handleOptionClick = (index) => {
+    setSelectedOption(index);
+    setOptionsDisabled(true);
+
+    if (time === 0) return;
+
+    const option = state.questions[state.index].answers[index];
+    dispatch({ type: ACTIONS.CALCULATE_ANSWER, value: option });
+
+    clearInterval(timer.current);
+  };
+
+  const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  }
+  };
   return (
     <>
       <div className="question">
@@ -72,14 +99,29 @@ const Question = ({ timeRef, nextRef }) => {
         {currentQuestion?.answers.length &&
           currentQuestion?.answers.map((option, i) => {
             return (
-              <div className="option" key={i}>
-                {option.answer}
-              </div>
+              <Option
+                key={i}
+                time={time}
+                reveal={revealAnswer}
+                isSelected={i === selectedOption}
+                option={option}
+                isCorrect={option.correct}
+                handleClick={
+                  optionsDisabled ? () => {} : () => handleOptionClick(i)
+                }
+                optionsDisabled={optionsDisabled}
+              />
             );
           })}
       </div>
 
-      <div ref={nextRef} className="next">
+      <div
+        ref={nextRef}
+        className="next"
+        style={{
+          cursor: optionsDisabled ? "pointer" : "default",
+        }}
+      >
         <p id="nextBtn" onClick={handleNext}>
           Next
         </p>
