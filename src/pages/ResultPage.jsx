@@ -4,9 +4,26 @@ import twitter from "../assets/images/twitter.svg";
 import instagram from "../assets/images/instagram.svg";
 import Footer from "../components/Footer";
 import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { useGlobalContext } from "../contexts/useGlobalContext";
 import "./result.css";
 
 const ResultPage = () => {
+  const { state } = useGlobalContext();
+  const [greenPercentage, setGreenPercentage] = useState(0);
+  const [redPercentage, setRedPercentage] = useState(0);
+
+  useEffect(() => {
+    const rightQuestions = state.score;
+    const totalQuestions = state.questions.length;
+
+    const green = (rightQuestions / totalQuestions) * 100;
+    const red = 100 - green;
+
+    setGreenPercentage(green.toFixed(1));
+    setRedPercentage(red.toFixed(1));
+  }, [state.score, state.questions]);
+
   return (
     <main className="result-container">
       <header className="result-header">
@@ -18,8 +35,18 @@ const ResultPage = () => {
 
       <section className="result">
         <div className="bar">
-          <div className="bar-green"></div>
-          <div className="bar-red"></div>
+          <div
+            className="bar-green"
+            style={{
+              width: `${greenPercentage}%`,
+            }}
+          ></div>
+          <div
+            className="bar-red"
+            style={{
+              width: `${redPercentage}%`,
+            }}
+          ></div>
           <div className="green-square">
             <div className="green-circle"></div>
           </div>
@@ -29,9 +56,9 @@ const ResultPage = () => {
           </div>
         </div>
 
-        <p className="score"></p>
-        <p className="green-percentage"></p>
-        <p className="red-percentage"></p>
+        <p className="score">Score: {state.score}</p>
+        <p className="green-percentage">{greenPercentage}%</p>
+        <p className="red-percentage">{redPercentage}%</p>
       </section>
 
       <section className="quote">

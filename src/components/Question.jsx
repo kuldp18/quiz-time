@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "../contexts/useGlobalContext";
+import { useNavigate } from "react-router";
 import { ACTIONS } from "../reducers/quizReducer";
 import Option from "./Option";
 
 const Question = ({ timeRef, nextRef }) => {
   const { state, dispatch } = useGlobalContext();
+  const navigate = useNavigate();
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
 
@@ -64,7 +66,11 @@ const Question = ({ timeRef, nextRef }) => {
   }, [state.index, state.questions]);
 
   const handleNext = () => {
-    if (state.index === state.questions.length - 1 || !optionsDisabled) return;
+    if (!optionsDisabled) return;
+
+    if (state.index === state.questions.length - 1) {
+      navigate("/result");
+    }
     dispatch({ type: ACTIONS.INCREASE_INDEX });
   };
 

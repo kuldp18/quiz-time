@@ -13,6 +13,7 @@ export const ACTIONS = {
   CHANGE_THEME: "CHANGE_THEME",
   INCREASE_INDEX: "INCREASE_INDEX",
   CALCULATE_ANSWER: "CALCULATE_ANSWER",
+  RESET_STATE: "RESET_STATE",
 };
 
 export const quizReducer = (state, action) => {
@@ -33,6 +34,10 @@ export const quizReducer = (state, action) => {
         // Wrong answer
         return { ...state };
       }
+    }
+
+    case ACTIONS.RESET_STATE: {
+      return { ...initialState };
     }
     default:
       throw new Error("Invalid action type in dispatch");
