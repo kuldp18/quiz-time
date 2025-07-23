@@ -14,6 +14,7 @@ export const ACTIONS = {
   INCREASE_INDEX: "INCREASE_INDEX",
   CALCULATE_ANSWER: "CALCULATE_ANSWER",
   RESET_STATE: "RESET_STATE",
+  CHECK_HIGHSCORE: "CHECK_HIGHSCORE",
 };
 
 export const quizReducer = (state, action) => {
@@ -34,6 +35,12 @@ export const quizReducer = (state, action) => {
         // Wrong answer
         return { ...state };
       }
+    }
+
+    case ACTIONS.CHECK_HIGHSCORE: {
+      const highscore =
+        state.score > state.highscore ? state.score : state.highscore;
+      return { ...state, highscore };
     }
 
     case ACTIONS.RESET_STATE: {

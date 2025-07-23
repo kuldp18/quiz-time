@@ -7,9 +7,10 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../contexts/useGlobalContext";
 import "./result.css";
+import { ACTIONS } from "../reducers/quizReducer";
 
 const ResultPage = () => {
-  const { state } = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
   const [greenPercentage, setGreenPercentage] = useState(0);
   const [redPercentage, setRedPercentage] = useState(0);
   const [quote, setQuote] = useState("");
@@ -17,6 +18,9 @@ const ResultPage = () => {
   useEffect(() => {
     const rightQuestions = state.score;
     const totalQuestions = state.questions.length;
+
+    // check highscore
+    dispatch({ type: ACTIONS.CHECK_HIGHSCORE });
 
     const green = (rightQuestions / totalQuestions) * 100;
     const red = 100 - green;
