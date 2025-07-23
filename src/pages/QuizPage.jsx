@@ -6,17 +6,37 @@ import { useGlobalContext } from "../contexts/useGlobalContext";
 import "./quiz.css";
 import { useEffect, useRef, useState } from "react";
 import Question from "../components/Question";
+import bgMusic from "../assets/audio/bg_music.mp3";
 
 const QuizPage = () => {
   const { state } = useGlobalContext();
   const nextRef = useRef(null); // next dom element ref
   const timeRef = useRef(null); // timer dom element ref
 
+  const [volumeOn, setVolumeOn] = useState(true); // global volume knob
+  const [music, setMusic] = useState(null); // audio object
+
   const [progress, setProgress] = useState(
     `${state.index + 1 < 10 ? `0${state.index + 1}` : state.index + 1}/${
       state.questions.length
     }`
   );
+
+  useEffect(() => {
+    // handle bg music
+    if (!music) {
+      setMusic(new Audio(bgMusic));
+    }
+
+    if (volumeOn && music) {
+      music.loop = true;
+      music.autoplay = true;
+      music.volume = 0.5;
+      music.play();
+    } else {
+      music?.pause();
+    }
+  }, [volumeOn, music]);
 
   useEffect(() => {
     // update progress
@@ -55,7 +75,10 @@ const QuizPage = () => {
               <img src={logo} alt="Quiz Time" />
             </Link>
           </div>
-          <div className="volume">
+          <div
+            className={volumeOn ? "volume" : "volume volume-off"}
+            onClick={() => setVolumeOn(!volumeOn)}
+          >
             <img src={volume} alt="Volume" />
           </div>
         </section>
@@ -66,7 +89,7 @@ const QuizPage = () => {
       </header>
 
       <section className="quiz">
-        <Question timeRef={timeRef} nextRef={nextRef} />
+        <Question timeRef={timeRef} nextRef={nextRef} volumeOn={volumeOn} />
       </section>
 
       <Footer />

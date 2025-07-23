@@ -3,8 +3,10 @@ import { useGlobalContext } from "../contexts/useGlobalContext";
 import { useNavigate } from "react-router";
 import { ACTIONS } from "../reducers/quizReducer";
 import Option from "./Option";
+import rightTing from "../assets/audio/correct.mp3";
+import wrongTing from "../assets/audio/wrong.wav";
 
-const Question = ({ timeRef, nextRef }) => {
+const Question = ({ timeRef, nextRef, volumeOn }) => {
   const { state, dispatch } = useGlobalContext();
   const navigate = useNavigate();
 
@@ -82,8 +84,19 @@ const Question = ({ timeRef, nextRef }) => {
 
     const option = state.questions[state.index].answers[index];
     dispatch({ type: ACTIONS.CALCULATE_ANSWER, value: option });
-
     clearInterval(timer.current);
+
+    if (option.correct && volumeOn) {
+      // play correct sound
+      const audio = new Audio(rightTing);
+      audio.autoplay = true;
+      audio.volume = 0.7;
+    } else if (!option.correct && volumeOn) {
+      // play wrong sound
+      const audio = new Audio(wrongTing);
+      audio.autoplay = true;
+      audio.volume = 0.4;
+    }
   };
 
   const formatTime = (seconds) => {
