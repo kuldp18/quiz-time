@@ -21,6 +21,8 @@ const ResultPage = () => {
 
     // check highscore
     dispatch({ type: ACTIONS.CHECK_HIGHSCORE });
+    //save quiz
+    dispatch({ type: ACTIONS.SAVE_QUIZ });
 
     const green = (rightQuestions / totalQuestions) * 100;
     const red = 100 - green;

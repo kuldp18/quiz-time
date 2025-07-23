@@ -16,6 +16,7 @@ export const ACTIONS = {
   RESET_STATE: "RESET_STATE",
   CHECK_HIGHSCORE: "CHECK_HIGHSCORE",
   SAVE_QUIZ: "SAVE_QUIZ",
+  LOAD_SAVED_QUIZ: "LOAD_SAVED_QUIZ",
 };
 
 export const quizReducer = (state, action) => {
@@ -47,6 +48,11 @@ export const quizReducer = (state, action) => {
     case ACTIONS.SAVE_QUIZ: {
       localStorage.setItem("quiz", JSON.stringify(state));
       return { ...state };
+    }
+
+    case ACTIONS.LOAD_SAVED_QUIZ: {
+      const savedState = action.value;
+      return { ...savedState };
     }
 
     case ACTIONS.RESET_STATE: {

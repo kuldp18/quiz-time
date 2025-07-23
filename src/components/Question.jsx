@@ -23,7 +23,7 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
     () =>
       throttle(() => {
         dispatch({ type: ACTIONS.SAVE_QUIZ });
-      }, 3000),
+      }, 1500),
     [dispatch]
   );
 
@@ -52,8 +52,12 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
       setOptionsDisabled(true);
       setRevealAnswer(true);
     }
-    //save quiz every 3 seconds
+    //save quiz
     saveQuiz();
+
+    return () => {
+      saveQuiz.cancel();
+    };
   }, [time, dispatch, saveQuiz]);
 
   useEffect(() => {
