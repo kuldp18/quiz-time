@@ -1,7 +1,8 @@
 import questionData from "../data/questions";
+import _ from "lodash";
 
 export const initialState = {
-  questions: questionData,
+  questions: prepareQuiz(questionData),
   index: 0,
   theme: "green", //green,red,slate
   highscore: null,
@@ -37,3 +38,12 @@ export const quizReducer = (state, action) => {
       throw new Error("Invalid action type in dispatch");
   }
 };
+
+function prepareQuiz(questions) {
+  let shuffledQuestions = _.shuffle(questions);
+
+  return shuffledQuestions.map((question) => {
+    question.answers = _.shuffle(question.answers);
+    return question;
+  });
+}
