@@ -39,13 +39,13 @@ const Question = ({ timeRef, nextRef, volumeOn }) => {
 
   useEffect(() => {
     // change theme as timer changes...
-    if (time === 30) {
+    if (time <= 30) {
       dispatch({ type: ACTIONS.CHANGE_THEME, value: "green" });
     }
-    if (time === 15) {
+    if (time <= 15) {
       dispatch({ type: ACTIONS.CHANGE_THEME, value: "slate" });
     }
-    if (time === 5) {
+    if (time <= 5) {
       dispatch({ type: ACTIONS.CHANGE_THEME, value: "red" });
     }
     if (time === 0) {
