@@ -2,6 +2,8 @@
 
 A dynamic JavaScript quiz app that tests your knowledge while keeping you on your toes! Built with React and powered by Vite.
 
+### ✅ [App Demo](https://quiz-time-js.netlify.app)
+
 ## ✨ Features
 
 - **⏰ Dynamic Timer**: 30 seconds per question with visual theme changes as time runs out
